@@ -1,0 +1,10 @@
+_deps
+.vscode
+CMakeFiles
+CPM_modules
+Generator_artefacts
+cmake_install.cmake
+Makefile
+CMakeCache.txt
+compile_commands.json
+cpm-package-lock.cmake
