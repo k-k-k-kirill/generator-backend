@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(GeneratorApp VERSION 0.1)
+project(Generator VERSION 0.1)
 
 #including CPM.cmake, a package manager:
 #https://github.com/TheLartians/CPM.cmake
