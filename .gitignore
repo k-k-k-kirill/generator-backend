@@ -1,0 +1,9 @@
+_deps
+CMakeFiles
+CPM_modules
+cpm-package-lock.cmake
+Makefile
+cmake_install.cmake
+Generator_artefacts
+CMakeCache.txt
+compile_commands.json
