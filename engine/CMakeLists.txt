@@ -8,6 +8,8 @@ include(CMake/CPM.cmake)
 #Compile commands, useful for some IDEs like VS-Code
 set(CMAKE_EXPORT_COMPILE_COMMANDS TRUE)
 
+set (CMAKE_CXX_STANDARD 14)
+
 #Minimum MacOS target, set globally
 set(CMAKE_OSX_DEPLOYMENT_TARGET "10.9" CACHE STRING "Minimum OS X deployment version" FORCE)
 
@@ -51,4 +53,6 @@ target_link_libraries(${TargetName} PRIVATE
         juce::juce_recommended_config_flags
         juce::juce_recommended_lto_flags
         juce::juce_recommended_warning_flags
-        juce::juce_core)
+        juce::juce_core
+        juce::juce_audio_formats
+        juce::juce_audio_basics)
