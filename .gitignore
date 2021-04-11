@@ -11,4 +11,4 @@ server/dist
 server/.env
 resources/downloads/*
 resources/output/*
-server/node_modules
+node_modules
