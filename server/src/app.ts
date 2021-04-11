@@ -1,5 +1,6 @@
 import express, { Application } from 'express';
 import mongoose, { Connection } from 'mongoose';
+import morgan from 'morgan';
 
 class App {
     private app: Application;
@@ -17,6 +18,9 @@ class App {
         this.db.on('open', () => console.log('Successfully connected to Mongoose.'));
 
         this.app = express();
+
+        this.app.use(morgan('dev'));
+
         this.app.listen(process.env.SERVER_PORT || 3000, () => {
             console.log('App initialised!');
         })

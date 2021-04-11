@@ -21,9 +21,11 @@
   },
   "dependencies": {
     "@types/aws-sdk": "^2.7.0",
+    "@types/morgan": "^1.9.2",
     "aws-sdk": "^2.884.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "morgan": "^1.10.0",
     "uuid": "^8.3.2"
   }
 }
