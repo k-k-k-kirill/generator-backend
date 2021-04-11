@@ -12,3 +12,4 @@ server/.env
 resources/downloads/*
 resources/output/*
 node_modules
+.vscode
