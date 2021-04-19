@@ -2,6 +2,9 @@ import express, { Application } from 'express';
 import mongoose, { Connection } from 'mongoose';
 import morgan from 'morgan';
 
+// Routers
+import sampleRouter from './routes/sample';
+
 class App {
     private app: Application;
     private db: Connection;
@@ -20,6 +23,7 @@ class App {
         this.app = express();
 
         this.app.use(morgan('dev'));
+        this.app.use(sampleRouter);
 
         this.app.listen(process.env.SERVER_PORT || 3000, () => {
             console.log('App initialised!');

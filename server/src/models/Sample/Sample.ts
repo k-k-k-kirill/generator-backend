@@ -2,18 +2,41 @@ import Sample from './types';
 import mongoose, { Schema } from 'mongoose';
 
 const SampleSchema: Schema = new Schema({
+    fileKey: {
+        type: String,
+        required: true,
+    },
     key: {
         type: String,
         required: true,
     },
     moods: {
-        type: [String],
+        type: [{
+            label: String,
+            value: String,
+        }],
     },
     genres: {
-        type: [String],
+        type: [{
+            label: String,
+            value: String,
+            subgenres: [
+                {
+                    label: String,
+                    value: String,
+                }
+            ]
+        }],
     },
-    subgenres: {
-        type: [String],
+    artists: {
+        type: [{
+            label: String,
+            value: String,
+        }],
+    },
+    trackType: {
+        type: String,
+        required: true,
     },
     bpm: {
         type: Number,
