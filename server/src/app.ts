@@ -1,6 +1,7 @@
 import express, { Application } from 'express';
 import mongoose, { Connection } from 'mongoose';
 import morgan from 'morgan';
+import cors from 'cors';
 
 // Routers
 import sampleRouter from './routes/sample';
@@ -22,6 +23,7 @@ class App {
 
         this.app = express();
 
+        this.app.use(cors());
         this.app.use(morgan('dev'));
         this.app.use(sampleRouter);
 
