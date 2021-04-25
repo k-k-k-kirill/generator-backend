@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import mongoose, { Connection } from 'mongoose';
 import morgan from 'morgan';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 
 // Routers
 import sampleRouter from './routes/sample';
@@ -23,8 +24,10 @@ class App {
 
         this.app = express();
 
+        this.app.use(express.json());
         this.app.use(cors());
         this.app.use(morgan('dev'));
+        this.app.use(fileUpload());
         this.app.use(sampleRouter);
 
         this.app.listen(process.env.SERVER_PORT || 3000, () => {

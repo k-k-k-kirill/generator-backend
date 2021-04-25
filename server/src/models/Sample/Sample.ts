@@ -1,44 +1,62 @@
 import Sample from './types';
 import mongoose, { Schema } from 'mongoose';
 
+const TagSchema: Schema = new Schema({
+    label: {
+        type: String,
+        required: true,
+    },
+    value: {
+        type: String,
+        required: true,
+    },
+});
+
+const GenreSchema: Schema = new Schema({
+    label: {
+        type: String,
+        required: true,
+    },
+    value: {
+        type: String,
+        required: true,
+    },
+    subgenres: {
+        type: [TagSchema],
+        required: false,
+    }
+});
+
 const SampleSchema: Schema = new Schema({
     fileKey: {
         type: String,
         required: true,
     },
     key: {
-        type: String,
+        type: TagSchema,
         required: true,
     },
     moods: {
-        type: [{
-            label: String,
-            value: String,
-        }],
+        type: [TagSchema],
+        required: false,
     },
     genres: {
-        type: [{
-            label: String,
-            value: String,
-            subgenres: [
-                {
-                    label: String,
-                    value: String,
-                }
-            ]
-        }],
+        type: [GenreSchema],
+        required: false,
     },
     artists: {
-        type: [{
-            label: String,
-            value: String,
-        }],
+        type: [TagSchema],
+        required: false,
     },
     trackType: {
-        type: String,
+        type: TagSchema,
         required: true,
     },
     bpm: {
+        type: Number,
+        required: true,
+    },
+    duration: {
         type: Number,
         required: true,
     },

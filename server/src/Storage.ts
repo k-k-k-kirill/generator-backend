@@ -2,7 +2,6 @@ import { String } from 'aws-sdk/clients/apigateway';
 import s3 from 'aws-sdk/clients/s3';
 import { AWSError, S3 } from 'aws-sdk';
 import fs from 'fs';
-import { threadId } from 'node:worker_threads';
 
 class Storage {
     private client: S3;
@@ -43,7 +42,7 @@ class Storage {
     }
 
     public async getObjectToPath(objectKey: string, outputPath: string) {
-        const bucketParams = {
+        const params = {
             Bucket: this.bucketName,
             Key: objectKey,
         }
@@ -59,9 +58,49 @@ class Storage {
             });
             var file = fs.createWriteStream(outputPath);
 
-            await this.client.getObject(bucketParams).createReadStream().pipe(file);
+            await this.client.getObject(params).createReadStream().pipe(file);
         }catch(error) {
             console.log(`Error fetching object: ${error}`);
+        }
+    }
+
+    public async uploadFile(file: any) {
+        const fileContent  = Buffer.from(file.data, 'binary');
+
+        const params = {
+            Bucket: this.bucketName,
+            Body: fileContent,
+            Key: file.name,
+        }
+
+        return this.client.upload(params).promise();
+    }
+
+    public async fileExists(fileKey: string) {
+        const params = {
+            Bucket: this.bucketName,
+            Key: fileKey,
+        };
+
+        try {
+            const response = await this.client.headObject(params).promise();
+            return true;
+        } catch(error) {
+            return false;
+        }
+    }
+
+    public async deleteFile(fileKey: string) {
+        const params = {
+            Bucket: this.bucketName,
+            Key: fileKey,
+        };
+
+        try {
+            const response = await this.client.deleteObject(params).promise();
+            return response;
+        } catch(error) {
+            return error;
         }
     }
 }
