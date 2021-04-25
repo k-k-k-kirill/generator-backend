@@ -3,6 +3,7 @@ import Storage from '../Storage';
 import Sample from '../models/Sample/Sample';
 const router = express.Router();
 const musicMetadata = require('music-metadata');
+import path from 'path';
 
 router.post('/samples/upload', async (req: Request, res: Response) => {
     const upload = req.files!.upload;
@@ -56,6 +57,34 @@ router.post('/samples/meta', async (req: Request, res: Response) => {
         res.status(500).send('No success!');
     }
 });
+
+router.get('/samples/generate', async (req: Request, res: Response) => {
+    try {
+        const storage = new Storage();
+        const sampleCollection = await Sample.find();
+
+        if(sampleCollection.length > 0) {
+            //@ts-ignore
+            const fileKeys = sampleCollection.map((sample) => sample.fileKey);
+            const inputDownloadPath = path.join(__dirname, '../../../resources/input');
+
+            const downloadPromises = fileKeys.map(async (fileKey) => {
+                return await storage.getObjectToPath(fileKey, inputDownloadPath);
+            });
+
+            Promise.all(downloadPromises).then((data) => {
+                res.status(200).send(data);
+            });
+
+            return res.status(200).send('Success!');
+        }
+    } catch(error) {
+        console.log(error);
+        res.status(500).send({
+            error: 'Could not retrieve sample collection.'
+        })
+    }
+})
 
 export default router;
 

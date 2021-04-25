@@ -6,25 +6,32 @@ using namespace juce;
 
 int main() {
     File fileOutput("../../resources/output/output.wav");
-    File inputFile("../../resources/downloads/hiphop_drill_140_drums_T1.wav");
-    File fileInputPaths[1] = {inputFile};
-    AudioFormatManager  formatManager;
+    std::vector<File> fileInputPaths;
+
+    for (DirectoryEntry entry : RangedDirectoryIterator (File ("../../resources/input/"), false)) {
+        fileInputPaths.push_back(entry.getFile());
+    }
+
+    AudioFormatManager formatManager;
     MixerAudioSource mixer;
+    AudioFormatReader* reader;
     int64 totalNumSamples = 0;
     WavAudioFormat wav;
     formatManager.registerBasicFormats();
-    AudioFormatReader* reader;
     int64 currentFileSampleLength;
 
-    for (int i = 0; i < 1; i++) {
+    for(std::size_t i = 0; i < fileInputPaths.size(); ++i) {
         reader = formatManager.createReaderFor(fileInputPaths[i]);
-        auto* newSource(new AudioFormatReaderSource(reader, true));
-        mixer.addInputSource(newSource, true);
 
-        currentFileSampleLength = reader->lengthInSamples;
+        if ( reader != NULL ) {
+            auto* newSource(new AudioFormatReaderSource(reader, true));
+            mixer.addInputSource(newSource, true);
 
-        if (currentFileSampleLength > totalNumSamples) {
-            totalNumSamples = currentFileSampleLength;
+            currentFileSampleLength = reader->lengthInSamples;
+
+            if (currentFileSampleLength > totalNumSamples) {
+                totalNumSamples = currentFileSampleLength;
+            }
         }
     }
 

@@ -52,13 +52,18 @@ class Storage {
         }
 
         try {
-            fs.writeFile(outputPath,'', function(err: any) {
+            fs.writeFile(`${outputPath}/${objectKey}`,'', function(err: any) {
                 if (err) throw err;
                 console.log('New file created for storage object writing.');
             });
-            var file = fs.createWriteStream(outputPath);
+            var file = fs.createWriteStream(`${outputPath}/${objectKey}`);
 
-            await this.client.getObject(params).createReadStream().pipe(file);
+            const stream  = await this.client.getObject(params).createReadStream().pipe(file);
+
+            return new Promise((resolve, reject) => {
+                stream.on('end', resolve);
+                stream.on('error', reject);
+            });
         }catch(error) {
             console.log(`Error fetching object: ${error}`);
         }
