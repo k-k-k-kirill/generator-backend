@@ -9,7 +9,7 @@ engine/CMakeCache.txt
 engine/compile_commands.json
 server/dist
 server/.env
-resources/downloads/*
 resources/output/*
+resources/input/*
 node_modules
 .vscode

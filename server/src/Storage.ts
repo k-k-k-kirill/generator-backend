@@ -58,10 +58,10 @@ class Storage {
             });
             var file = fs.createWriteStream(`${outputPath}/${objectKey}`);
 
-            const stream  = await this.client.getObject(params).createReadStream().pipe(file);
+            const stream = this.client.getObject(params).createReadStream().pipe(file);
 
             return new Promise((resolve, reject) => {
-                stream.on('end', resolve);
+                stream.on('close', resolve);
                 stream.on('error', reject);
             });
         }catch(error) {

@@ -6,7 +6,7 @@ class Generator {
     private pathToCxxGeneratorDirectory = path.join(__dirname, '../../../engine/Generator_artefacts');
     private commandToExecute: string = `cd ${this.pathToCxxGeneratorDirectory} && ./Generator`;
 
-    public runCxxGenerator() {
+    public async runCxxGenerator() {
         exec(this.commandToExecute, (error: any, stdout: any, stderr: any) => {
             if (error) {
                 console.error(`error: ${error}`);
@@ -20,7 +20,6 @@ class Generator {
             if(stderr) {
                 console.log(`stderr: ${stderr}`)
             }
-
         });
     }
 }

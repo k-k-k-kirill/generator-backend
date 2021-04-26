@@ -4,6 +4,7 @@ import Sample from '../models/Sample/Sample';
 const router = express.Router();
 const musicMetadata = require('music-metadata');
 import path from 'path';
+import Generator from '../services/Generator';
 
 router.post('/samples/upload', async (req: Request, res: Response) => {
     const upload = req.files!.upload;
@@ -69,12 +70,17 @@ router.get('/samples/generate', async (req: Request, res: Response) => {
             const inputDownloadPath = path.join(__dirname, '../../../resources/input');
 
             const downloadPromises = fileKeys.map(async (fileKey) => {
-                return await storage.getObjectToPath(fileKey, inputDownloadPath);
+                return storage.getObjectToPath(fileKey, inputDownloadPath);
             });
 
-            Promise.all(downloadPromises).then((data) => {
-                res.status(200).send(data);
-            });
+            await Promise.all(downloadPromises)
+                .then(() => console.log('Sample downloads completed.'))
+                .catch(() => console.log('Error occured while downloading samples.'));
+
+            const generator = new Generator();
+
+            console.log('Async sucks');
+            generator.runCxxGenerator();
 
             return res.status(200).send('Success!');
         }
