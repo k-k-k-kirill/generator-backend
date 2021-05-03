@@ -22,7 +22,7 @@ const upload = async (req: Request, res: Response) => {
             const info = await musicMetadata.parseBuffer(upload.data, 'wav');
             
             const uploadData = await storage.uploadFile(upload);
-            res.status(200).send({
+            return res.status(200).send({
                 fileKey: uploadData.Key,
                 duration: info.format.duration,
             });

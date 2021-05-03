@@ -10,7 +10,7 @@ const TagSchema: Schema = new Schema({
         type: String,
         required: true,
     },
-});
+}, { _id : false });
 
 const GenreSchema: Schema = new Schema({
     label: {
@@ -25,7 +25,7 @@ const GenreSchema: Schema = new Schema({
         type: [TagSchema],
         required: false,
     }
-});
+}, { _id : false });
 
 const SampleSchema: Schema = new Schema({
     fileKey: {

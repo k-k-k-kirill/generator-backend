@@ -43,7 +43,12 @@ set (TargetName ${PROJECT_NAME})
 
 juce_add_console_app(${TargetName} PRODUCT_NAME "Generator")
 
-target_sources(${TargetName} PRIVATE Source/Main.cpp)
+target_sources(${TargetName}
+        PRIVATE 
+            Source/Main.cpp
+            Source/FileHandler.cpp
+            Source/Composer.cpp
+)
 
 target_compile_definitions(${TargetName} PRIVATE
         JUCE_WEB_BROWSER=0

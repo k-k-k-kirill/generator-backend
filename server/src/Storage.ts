@@ -1,6 +1,6 @@
 import { String } from 'aws-sdk/clients/apigateway';
 import s3 from 'aws-sdk/clients/s3';
-import { AWSError, S3 } from 'aws-sdk';
+import { S3 } from 'aws-sdk';
 import fs from 'fs';
 
 class Storage {
@@ -61,12 +61,22 @@ class Storage {
             const stream = this.client.getObject(params).createReadStream().pipe(file);
 
             return new Promise((resolve, reject) => {
-                stream.on('close', resolve);
+                stream.on('close', () => resolve(`${outputPath}/${objectKey}`));
                 stream.on('error', reject);
             });
         }catch(error) {
             console.log(`Error fetching object: ${error}`);
         }
+    }
+
+    public getMultipleObjectsToDirectory = async (fileKeys: string[], downloadPath: string) => {
+        const downloadPromises = fileKeys.map(async (fileKey) => {
+            return this.getObjectToPath(fileKey, downloadPath);
+        });
+
+        await Promise.all(downloadPromises)
+            .then(() => console.log('Sample downloads completed.'))
+            .catch(() => console.log('Error occured while downloading samples.'));
     }
 
     public async uploadFile(file: any) {
